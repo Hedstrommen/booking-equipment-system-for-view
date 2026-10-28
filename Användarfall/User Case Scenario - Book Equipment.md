@@ -19,9 +19,9 @@ Personal (som kan skapa bokningar åt kunder enligt samma regler)
 2. Kunden väljer startdatum och slutdatum för hyresperioden
 3. Systemet kontrollerar att perioden är giltig - startdatum får inte ligga bakåt i tiden (VR04)
 4. Systemet kontrollerar tillgången - att minst ett exemplar av modellen är ledigt hela perioden, med hänsyn till:
-- befintliga aktiva bokningar (VR06)
-- fredag-måndag-regeln med helgdagar som spärrtid (VR02)
-- Exemplar markerade som otillgängliga (VR12)
+    - befintliga aktiva bokningar (VR06)
+    - fredag-måndag-regeln med helgdagar som spärrtid (VR02)
+    - Exemplar markerade som otillgängliga (VR12)
 5. Systemet beräknar totalpriset: antal hyresdagar (båda första och sista dagen räknas, VR01 * dagspris (FK17))
 6. Systemet visar totalpris och bokningsöversökt för kunden innan bekräftelse (FK17)
 7. Kunden bekräftar bokningen
