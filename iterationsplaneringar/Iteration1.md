@@ -1,3 +1,7 @@
+### Gäller
+från 2026-10-26
+till dagens datum: 2026-10-28
+
 ### Gemensamt mål:
 - Ha valt våra user stories (US)
 - Påbörja Aktivitetsdiagram för sina US
