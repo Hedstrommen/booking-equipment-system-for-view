@@ -2,7 +2,7 @@
 från 2026-10-26
 till dagens datum: 2026-10-28
 
-### Gemensamt mål:
+### Gemensamt mål till nästa iteration:
 - Ha valt våra user stories (US)
 - Påbörja Aktivitetsdiagram för sina US
 - Påbörja sekvensdiagram för sina US
@@ -23,7 +23,7 @@ till dagens datum: 2026-10-28
 - Tog längre tid att skriva features, user stories och tasks än man trodde
 
 ### Återblick:
-- Bra jobbat, lite svårare än man först trott
+- Bra jobbat, lite svårare och tog längre tid än man först trott att skriva features och user stories
 - Vår grundplan med iterationer känns görbara
 
 ### Förbättring:
