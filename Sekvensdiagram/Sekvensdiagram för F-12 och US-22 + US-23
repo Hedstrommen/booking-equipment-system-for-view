@@ -1,0 +1,49 @@
+@startuml ShowTotalPriceBeforeConfirmation_Sequence
+title Calculate and display total price before confirmation
+hide footbox
+autonumber
+skinparam monochrome true
+skinparam shadowing false
+
+actor Customer
+participant "ConsoleUI" as UI
+participant "EquipmentModel" as Model
+participant "PriceCalculation" as PC
+
+Customer -> UI : SelectOrChangeModelAndPeriod()
+activate UI
+UI -> Model : GetDailyPrice()
+activate Model
+Model --> UI : dailyPrice
+deactivate Model
+
+UI -> PC : CalculateTotalPrice(dailyPrice, startDate, endDate)
+activate PC
+PC -> PC : ValidatePeriod(startDate, endDate)
+PC -> PC : CalculateRentDays(startDate, endDate)
+PC -> PC : RoundToTwoDecimals(totalPrice)
+PC --> UI : totalPrice
+deactivate PC
+
+UI --> Customer : DisplayPriceSummary(model, dailyPrice, period, rentDays, totalPrice)
+UI --> Customer : AskForConfirmation()
+
+alt [Yes]
+  UI --> Customer : ContinueToBookingCreation()
+else [No]
+  loop [Until booking is confirmed]
+    Customer -> UI : SelectOrChangePeriod()
+    UI -> PC : CalculateTotalPrice(dailyPrice, startDate, endDate)
+    activate PC
+    PC -> PC : ValidatePeriod and calculate totalPrice
+    PC --> UI : new totalPrice
+    deactivate PC
+    UI --> Customer : DisplayPriceSummary() and AskForConfirmation()
+  end
+else [Invalid period]
+  PC --> UI : error
+  UI --> Customer : DisplayErrorMessage()
+end
+
+deactivate UI
+@enduml
