@@ -10,14 +10,14 @@ participant "ConsoleUI" as UI <<boundary>>
 participant "EquipmentModel" as Model <<entity>>
 participant "PriceCalculation" as PC <<control>>
 
-Customer -> UI : SelectModel()
-activate UI
-UI -> Model : GetDailyPrice()
-activate Model
-Model --> UI : dailyPrice
-deactivate Model
-
 loop [Until booking is confirmed]
+  Customer -> UI : SelectModel()
+  activate UI
+  UI -> Model : GetDailyPrice()
+  activate Model
+  Model --> UI : dailyPrice
+  deactivate Model
+
   Customer -> UI : SelectOrChangePeriod(startDate, endDate)
   UI -> PC : CalculateTotalPrice(dailyPrice, startDate, endDate)
   activate PC
@@ -43,5 +43,4 @@ loop [Until booking is confirmed]
 end
 
 UI --> Customer : ContinueToBookingCreation()
-deactivate UI
 @enduml
