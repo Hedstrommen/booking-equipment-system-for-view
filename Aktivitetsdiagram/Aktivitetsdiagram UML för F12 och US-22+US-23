@@ -1,32 +1,32 @@
-@startuml PrisvisningForeBekraftelse
+@startuml PrisvisningForeBekraftelse_Aktivitet
 title F-12 US-22 US-23 Beräkna och visa totalpris före bekräftelse
+skinparam monochrome true
+skinparam shadowing false
 
 start
-:Välj utrustningsmodell;
-:Hämta dagspris för vald modell;
-
-if (Finns registrerat dagspris?) then (nej - saknas)
-  :Visa felmeddelande om saknat dagspris;
-  stop
-else (ja)
-endif
-
 repeat
-  :Välj hyresperiod med startdatum och slutdatum;
-  :Anropa CalculateTotalPrice med dagspris och period;
-  :Validera att perioden är giltig;
+  :Välj utrustningsmodell;
+  :Hämta dagspris för vald modell;
 
-  if (Är perioden giltig?) then (ja - giltig)
-    :Beräkna antal hyresdagar som slutdatum minus startdatum plus 1;
-    :Beräkna totalpris som dagspris gånger antal hyresdagar;
-    :Avrunda till 2 decimaler;
-    :Visa modell, dagspris, period, antal dagar och totalpris;
-    :Ställ bekräftelsefrågan J eller N;
-    :Kunden läser priset och svarar;
-  else (nej - ogiltig)
-    :Visa felmeddelande om ogiltig hyresperiod;
+  if (Finns registrerat dagspris?) then (ja)
+    :Välj hyresperiod med startdatum och slutdatum;
+    :Anropa CalculateTotalPrice(dailyPrice, startDate, endDate);
+    :Validera indata: dagspris och period;
+
+    if (Är perioden giltig?) then (ja - giltig)
+      :Beräkna antal hyresdagar som slutdatum minus startdatum plus 1;
+      :Beräkna totalpris som dagspris gånger antal hyresdagar;
+      :Avrunda till 2 decimaler;
+      :Visa modell, dagspris, period, antal dagar och totalpris;
+      :Ställ bekräftelsefrågan J eller N;
+      :Kunden läser totalpriset och svarar J eller N;
+    else (nej - ogiltig)
+      :Visa felmeddelande om ogiltig hyresperiod;
+    endif
+  else (nej - saknas)
+    :Visa felmeddelande om saknat dagspris;
   endif
-repeat while (Perioden ogiltig eller kunden svarade N?)
+repeat while (Dagspris saknas, perioden ogiltig eller kunden svarade N?) is (ja - nytt val) not (nej - bokning bekräftad)
 
 :Fortsätt till bokningsskapande som ägs av annan feature;
 stop
