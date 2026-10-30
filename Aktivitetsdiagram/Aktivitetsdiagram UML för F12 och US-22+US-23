@@ -1,33 +1,47 @@
-@startuml PrisvisningForeBekraftelse
-title F-12 US-22 US-23 Beräkna och visa totalpris före bekräftelse
+@startuml ShowTotalPriceBeforeConfirmation_Sequence
+title Calculate and display total price before confirmation
+hide footbox
+autonumber
+skinparam monochrome true
+skinparam shadowing false
 
-start
-:Välj utrustningsmodell;
-:Hämta dagspris för vald modell;
+actor Customer
+participant "ConsoleUI" as UI <<boundary>>
+participant "EquipmentModel" as Model <<entity>>
+participant "PriceCalculation" as PC <<control>>
 
-if (Finns registrerat dagspris?) then (nej - saknas)
-  :Visa felmeddelande om saknat dagspris;
-  stop
-else (ja)
-endif
+Customer -> UI : SelectModel()
+activate UI
+UI -> Model : GetDailyPrice()
+activate Model
+Model --> UI : dailyPrice
+deactivate Model
 
-repeat
-  :Välj hyresperiod med startdatum och slutdatum;
-  :Anropa CalculateTotalPrice med dagspris och period;
-  :Validera att perioden är giltig;
+loop [Until booking is confirmed]
+  Customer -> UI : SelectOrChangePeriod(startDate, endDate)
+  UI -> PC : CalculateTotalPrice(dailyPrice, startDate, endDate)
+  activate PC
+  PC -> PC : ValidateInput(dailyPrice, startDate, endDate)
 
-  if (Är perioden giltig?) then (ja - giltig)
-    :Beräkna antal hyresdagar som slutdatum minus startdatum plus 1;
-    :Beräkna totalpris som dagspris gånger antal hyresdagar;
-    :Avrunda till 2 decimaler;
-    :Visa modell, dagspris, period, antal dagar och totalpris;
-    :Ställ bekräftelsefrågan J eller N;
-    :Kunden läser priset och svarar;
-  else (nej - ogiltig)
-    :Visa felmeddelande om ogiltig hyresperiod;
-  endif
-repeat while (Perioden ogiltig eller kunden svarade N?)
+  alt [c Validation successful]
+    PC -> PC : CalculateRentDays(startDate, endDate)
+    note right of PC
+      Both startDate and endDate are
+      counted as rental days (VR01)
+    end note
+    PC -> PC : RoundToTwoDecimals(totalPrice)
+    PC --> UI : totalPrice
+    deactivate PC
+    UI --> Customer : DisplayPriceSummary(model, dailyPrice, period, rentDays, totalPrice)
+    UI --> Customer : AskForConfirmation()
+    Customer -> UI : answer Yes or No
+  else [c Validation failed]
+    PC --> UI : error: ArgumentException
+    deactivate PC
+    UI --> Customer : DisplayErrorMessage()
+  end
+end
 
-:Fortsätt till bokningsskapande som ägs av annan feature;
-stop
+UI --> Customer : ContinueToBookingCreation()
+deactivate UI
 @enduml
