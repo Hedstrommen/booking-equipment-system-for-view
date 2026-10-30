@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BookingSystemMoUS.Application\BookingSystemMoUS.Application.csproj" />
+    <ProjectReference Include="..\BookingSystemMoUS.Domain\BookingSystemMoUS.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
