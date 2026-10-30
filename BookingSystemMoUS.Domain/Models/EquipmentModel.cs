@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BookingSystemMoUS.Domain.Models
+﻿
+namespace BookingSystemMoUS.Domain.Models;
+public class EquipmentModel (string equipmentName, int dailyPrice)
 {
-    internal class EquipmentModel
-    {
-    }
+    public string EquipmentName { get; set; } = equipmentName;
+    public int DailyPrice { get; set; } = dailyPrice;
 }
