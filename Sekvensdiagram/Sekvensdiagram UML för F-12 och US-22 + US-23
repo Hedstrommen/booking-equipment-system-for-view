@@ -6,44 +6,42 @@ skinparam monochrome true
 skinparam shadowing false
 
 actor Customer
-participant "ConsoleUI" as UI
-participant "EquipmentModel" as Model
-participant "PriceCalculation" as PC
+participant "ConsoleUI" as UI <<boundary>>
+participant "EquipmentModel" as Model <<entity>>
+participant "PriceCalculation" as PC <<control>>
 
-Customer -> UI : SelectOrChangeModelAndPeriod()
+Customer -> UI : SelectModel()
 activate UI
 UI -> Model : GetDailyPrice()
 activate Model
 Model --> UI : dailyPrice
 deactivate Model
 
-UI -> PC : CalculateTotalPrice(dailyPrice, startDate, endDate)
-activate PC
-PC -> PC : ValidatePeriod(startDate, endDate)
-PC -> PC : CalculateRentDays(startDate, endDate)
-PC -> PC : RoundToTwoDecimals(totalPrice)
-PC --> UI : totalPrice
-deactivate PC
+loop [Until booking is confirmed]
+  Customer -> UI : SelectOrChangePeriod(startDate, endDate)
+  UI -> PC : CalculateTotalPrice(dailyPrice, startDate, endDate)
+  activate PC
+  PC -> PC : ValidateInput(dailyPrice, startDate, endDate)
 
-UI --> Customer : DisplayPriceSummary(model, dailyPrice, period, rentDays, totalPrice)
-UI --> Customer : AskForConfirmation()
-
-alt [Yes]
-  UI --> Customer : ContinueToBookingCreation()
-else [No]
-  loop [Until booking is confirmed]
-    Customer -> UI : SelectOrChangePeriod()
-    UI -> PC : CalculateTotalPrice(dailyPrice, startDate, endDate)
-    activate PC
-    PC -> PC : ValidatePeriod and calculate totalPrice
-    PC --> UI : new totalPrice
+  alt [c Validation successful]
+    PC -> PC : CalculateRentDays(startDate, endDate)
+    note right of PC
+      Both startDate and endDate are
+      counted as rental days (VR01)
+    end note
+    PC -> PC : RoundToTwoDecimals(totalPrice)
+    PC --> UI : totalPrice
     deactivate PC
-    UI --> Customer : DisplayPriceSummary() and AskForConfirmation()
+    UI --> Customer : DisplayPriceSummary(model, dailyPrice, period, rentDays, totalPrice)
+    UI --> Customer : AskForConfirmation()
+    Customer -> UI : answer Yes or No
+  else [c Validation failed]
+    PC --> UI : error: ArgumentException
+    deactivate PC
+    UI --> Customer : DisplayErrorMessage()
   end
-else [Invalid period]
-  PC --> UI : error
-  UI --> Customer : DisplayErrorMessage()
 end
 
+UI --> Customer : ContinueToBookingCreation()
 deactivate UI
 @enduml
