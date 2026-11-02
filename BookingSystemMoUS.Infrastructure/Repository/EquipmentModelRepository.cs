@@ -10,4 +10,23 @@ public class EquipmentModelRepository
         new EquipmentModel("Gräsklippare", 300),
         new EquipmentModel("Högtryckstvätt", 500)
     };
+
+    //För att hämta alla
+    public List<EquipmentModel> GetAll()
+    {
+        return _modelsList;
+    }
+
+    //För att hämta specifik utrustning baserat på namn. 
+    public EquipmentModel? GetByName(string equipmentName)
+    {
+        foreach (EquipmentModel model in _modelsList)
+        {
+            if (model.EquipmentName == equipmentName)
+            {
+                return model;
+            }
+        }
+        return null;
+    }
 }
