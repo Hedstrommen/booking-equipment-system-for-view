@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using BookingSystemMoUS.Domain.ValueObjects;
 
-namespace BookingSystemMoUS.Domain.Services
+namespace BookingSystemMoUS.Domain.Services;
+public class PriceCalculationService
 {
-    internal class PriceCalculationService
+    public decimal CalculateTotalPrice(DailyPrice price, HirePeriod period)
     {
+        return Math.Round(price.priceValue * period.GetRentalDays(), 2);
     }
 }
