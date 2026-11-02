@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using BookingSystemMoUS.Domain.Models;
 
-namespace BookingSystemMoUS.Application.Interfaces
+namespace BookingSystemMoUS.Application.Interfaces;
+public interface IEquipmentModelRepository
 {
-    internal interface IEquipmentModelRepository
-    {
-    }
+    public Task<List<EquipmentModel>> GetAllAsync();
+    public Task<EquipmentModel?> GetByNameAsync(string equipmentName);
 }

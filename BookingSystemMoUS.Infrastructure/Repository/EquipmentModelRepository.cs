@@ -1,8 +1,8 @@
-﻿
+﻿using BookingSystemMoUS.Application.Interfaces;
 using BookingSystemMoUS.Domain.Models;
 
 namespace BookingSystemMoUS.Infrastructure.Repository;
-public class EquipmentModelRepository
+public class EquipmentModelRepository : IEquipmentModelRepository
 {
     private readonly List<EquipmentModel> _modelsList = new List<EquipmentModel>
     {
@@ -12,13 +12,13 @@ public class EquipmentModelRepository
     };
 
     //För att hämta alla
-    public List<EquipmentModel> GetAll()
+    public async Task<List<EquipmentModel>> GetAllAsync()
     {
         return _modelsList;
     }
 
     //För att hämta specifik utrustning baserat på namn. 
-    public EquipmentModel? GetByName(string equipmentName)
+    public async Task<EquipmentModel?> GetByNameAsync(string equipmentName)
     {
         foreach (EquipmentModel model in _modelsList)
         {
