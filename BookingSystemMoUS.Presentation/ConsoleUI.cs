@@ -18,7 +18,7 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository)
                 await PrintAllModelsAsync();
 
                 //Välj modell
-                EquipmentModel? selectedModel = SelectModel();
+                EquipmentModel? selectedModel = SelectModelAsync();
 
                 //Välj period
                 HirePeriod selectedPeriod = SelectPeriod();
@@ -49,18 +49,32 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository)
         }
     }
 
-    private EquipmentModel? SelectModel()
+    private async Task<EquipmentModel?> SelectModelAsync()
     {
-        Console.WriteLine("Välj utrustning genom att skriva berört namn");
-        string? selectedModelName = Console.ReadLine();
-
-        if (string.IsNullOrWhiteSpace(selectedModelName))
+        while (true)
         {
-            throw new ArgumentException("Inget namn angavs för utrustningen.");
-        }
+            Console.WriteLine("Välj utrustning genom att skriva berört namn");
+            string? selectedModelName = Console.ReadLine();
 
-        return equipmentModelRepository.GetByNameAsync(selectedModelName).Result;
+            if (string.IsNullOrWhiteSpace(selectedModelName))
+            {
+                Console.WriteLine("Ogiltigt namn, försök igen.");
+                continue;
+            }
+
+            EquipmentModel? model = await equipmentModelRepository.GetByNameAsync(selectedModelName);
+
+            if (model is null)
+            {
+                Console.WriteLine("Ogiltigt namn, försök igen.");
+                continue;
+            }
+            return model;
+        }
     }
 
-    
+    private HirePeriod SelectPeriod()
+    {
+
+    }
 }
