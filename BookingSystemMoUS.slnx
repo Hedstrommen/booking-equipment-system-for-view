@@ -1,4 +1,9 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="../../../Downloads/Inledande Aktivitetsdiagram F12-US22+US23.png" />
+    <File Path="../../../Downloads/Inledande Sekvensdiagram F12-US22+US23.png" />
+    <File Path="README-LOVEHEDSTROM.md" />
+  </Folder>
   <Project Path="BookingSystemMoUS.Application/BookingSystemMoUS.Application.csproj" Id="d6d076c8-a533-49cf-87d4-f82f9a4e6da4" />
   <Project Path="BookingSystemMoUS.Domain/BookingSystemMoUS.Domain.csproj" Id="f19db349-ffb4-4e74-8d20-005003854282" />
   <Project Path="BookingSystemMoUS.Infrastructure/BookingSystemMoUS.Infrastructure.csproj" Id="3aab7861-e2da-413e-aa7b-cbea60259208" />
