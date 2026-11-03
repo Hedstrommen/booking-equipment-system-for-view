@@ -9,8 +9,8 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository)
 {
     public async Task RunProgramAsync(CalculateTotalPriceService calculateTotalPriceService)
     {
-        bool bookingInProgress = true;
-        while (bookingInProgress)
+        bool bookingInProgress = false;
+        while (!bookingInProgress)
         {
             try
             {
@@ -26,16 +26,23 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository)
                 //Visa pris
                 PriceResultRecord priceResult = await calculateTotalPriceService.CalculateFinalPriceServiceAsync(selectedModel, selectedPeriod);
 
-                DisplayFinalPrice(priceResult);
+                DisplayFinalBookingData(priceResult);
 
                 //Bekräftelse
                 bookingInProgress = ConfirmBooking();
             }
             catch (ArgumentException exception)
             {
-
+                Console.WriteLine($"Fel: {exception.Message}");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Console.WriteLine($"Fel: {exception.Message}");
             }
         }
+
+        Console.WriteLine("Tack för att du använde bokningssystemet. Tryck enter för att komma vidare till bokningsskapandet (programmet avslutas i denna uppgift)");
+        Console.ReadKey();
     }
 
     private async Task PrintAllModelsAsync()
@@ -104,11 +111,39 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository)
         }
     }
 
-    private void DisplayFinalPrice(PriceResultRecord priceResult)
+    private void DisplayFinalBookingData(PriceResultRecord priceResult)
     {
-        
+        Console.WriteLine($"Utrustning:\t{priceResult.EquipmentName}");
+        Console.WriteLine($"Dagspris:\t{priceResult.DailyPrice} kr");
+        Console.WriteLine($"Hyrperiod:\t{priceResult.StartDate} - {priceResult.EndDate}");
+        Console.WriteLine($"Antal hyresdagar:\t{priceResult.RentDays}");
+        Console.WriteLine($"Totalpris:\t{priceResult.TotalPrice} kr");
+    }
 
-        //Skriv ut priset i konsolen.
+    private bool ConfirmBooking()
+    {
+        Console.WriteLine("Bekräfta bokning? (J/N)");
 
+        while (true)
+        {
+            string? confirmation = Console.ReadLine()?.Trim().ToUpper();
+            if (confirmation == "J")
+            {
+                Console.WriteLine("Bokning bekräftad, tryck enter för att fortsätta");
+                Console.ReadKey();
+                return true;
+            }
+            else if (confirmation == "N")
+            {
+                Console.WriteLine("Bokning avbruten.");
+                Console.WriteLine("Tryck enter för att fortsätta");
+                Console.ReadKey();
+                return false;
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt val, försök igen.");
+            }
+        }
     }
 }
