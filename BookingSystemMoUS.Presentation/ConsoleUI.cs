@@ -49,7 +49,7 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository)
         }
     }
 
-    private async Task<EquipmentModel?> SelectModelAsync()
+    private async Task<EquipmentModel> SelectModelAsync()
     {
         while (true)
         {
