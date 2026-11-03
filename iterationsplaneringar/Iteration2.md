@@ -30,9 +30,9 @@ till dagens datum: 2026-11-09
 - Svår balans i vad som blir för specifikt kontra för generell task.
 
 ### Gemensamt mål till nästa iteration:
-- [] Börjat på klassdiagrammet efter nästa lektion + uppdatera 9e (+ kolla så vi har liknande moddeler osv)
-- [] Första verision av implementationen ska vara klar
-- [] Finslipa sina aktivitets- och sekvensdiagram (SPAR DOM GAMLA!)
-- [] Skriva till mer tasks som man kommer på?
-- [] Försöka få allt klart så vi kan börja med presentationen
-- [] Kolla om Hans kan få tillgång till DevOps. 
+- [ ] Börjat på klassdiagrammet efter nästa lektion + uppdatera 9e (+ kolla så vi har liknande moddeler osv)
+- [ ] Första verision av implementationen ska vara klar
+- [ ] Finslipa sina aktivitets- och sekvensdiagram (SPAR DOM GAMLA!)
+- [ ] Skriva till mer tasks som man kommer på?
+- [ ] Försöka få allt klart så vi kan börja med presentationen
+- [ ] Kolla om Hans kan få tillgång till DevOps. 
