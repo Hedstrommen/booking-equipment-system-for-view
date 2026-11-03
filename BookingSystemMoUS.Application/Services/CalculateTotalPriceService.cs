@@ -8,11 +8,11 @@ namespace BookingSystemMoUS.Application.Services;
 public class CalculateTotalPriceService(IEquipmentModelRepository equipmentModelRepository,
     PriceCalculationService priceCalculationService)
 {
-    public async Task<PriceResultRecord> ShowFinalPriceServiceAsync(string equipmentName, HirePeriod period)
+    public async Task<PriceResultRecord> CalculateFinalPriceServiceAsync(EquipmentModel equipmentModel, HirePeriod period)
     {
         //Vi hämtar specifik modell genom repository. Om ej finns -> felmeddelande.
-        EquipmentModel? model = await equipmentModelRepository.GetByNameAsync(equipmentName)
-            ?? throw new InvalidOperationException($"Utrustningsmodellen med namnet '{equipmentName}' finns inte.");
+        EquipmentModel? model = await equipmentModelRepository.GetByNameAsync(equipmentModel.EquipmentName)
+            ?? throw new InvalidOperationException($"Utrustningsmodellen med namnet '{equipmentModel.EquipmentName}' finns inte.");
 
         //Beräknar totalen genom service
         decimal finalPrice = priceCalculationService.CalculateTotalPrice(model.DailyPrice, period);

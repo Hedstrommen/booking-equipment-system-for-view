@@ -18,15 +18,15 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository)
                 await PrintAllModelsAsync();
 
                 //Välj modell
-                EquipmentModel? selectedModel = SelectModelAsync();
+                EquipmentModel? selectedModel = await SelectModelAsync();
 
                 //Välj period
                 HirePeriod selectedPeriod = SelectPeriod();
 
                 //Visa pris
-                PriceResultRecord priceResult = await ShowFinalPriceAsync(selectedModel, selectedPeriod);
+                PriceResultRecord priceResult = await calculateTotalPriceService.CalculateFinalPriceServiceAsync(selectedModel, selectedPeriod);
 
-                DisplayPriceResult(priceResult);
+                DisplayFinalPrice(priceResult);
 
                 //Bekräftelse
                 bookingInProgress = ConfirmBooking();
@@ -102,5 +102,13 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository)
 
             Console.WriteLine("Ogiltigt format, försöker igen med formatet ÅÅÅÅ-MM-DD: ");
         }
+    }
+
+    private void DisplayFinalPrice(PriceResultRecord priceResult)
+    {
+        
+
+        //Skriv ut priset i konsolen.
+
     }
 }
