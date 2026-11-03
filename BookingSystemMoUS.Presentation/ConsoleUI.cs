@@ -75,6 +75,32 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository)
 
     private HirePeriod SelectPeriod()
     {
+        while (true)
+        {
+            DateOnly startDate = ReadDate("Ange startdatum (ÅÅÅÅ-MM-DD): ");
+            DateOnly endDate = ReadDate("Ange slutdatum (ÅÅÅÅ-MM-DD): ");
 
+            try
+            {
+                return HirePeriod.CreateHirePeriod(startDate, endDate);
+            }
+            catch (ArgumentException)
+            {
+                Console.WriteLine("Ogiltigt datumintervall, säkerställ att slutdatumen är efter startdatumet och försök igen.");
+            }
+        }
+    }
+
+    private DateOnly ReadDate(string promptForInput)
+    {
+        while (true)
+        {
+            Console.WriteLine(promptForInput);
+
+            if (DateOnly.TryParse(Console.ReadLine(), out DateOnly inputDate))
+                return inputDate;
+
+            Console.WriteLine("Ogiltigt format, försöker igen med formatet ÅÅÅÅ-MM-DD: ");
+        }
     }
 }
