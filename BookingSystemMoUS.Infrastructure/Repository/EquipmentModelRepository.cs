@@ -22,6 +22,9 @@ public class EquipmentModelRepository : IEquipmentModelRepository
     //För att hämta specifik utrustning baserat på namn. 
     public async Task<EquipmentModel?> GetByNameAsync(string equipmentName)
     {
+        if (string.IsNullOrWhiteSpace(equipmentName))
+            return null;
+        
         equipmentName = equipmentName.Trim().ToUpper();
         
         foreach (EquipmentModel model in _modelsList)
