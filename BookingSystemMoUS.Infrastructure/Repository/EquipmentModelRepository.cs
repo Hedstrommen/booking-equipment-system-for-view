@@ -8,7 +8,7 @@ public class EquipmentModelRepository : IEquipmentModelRepository
     //Min fake-databas med utrustningsmodeller.
     private readonly List<EquipmentModel> _modelsList = new List<EquipmentModel>
     {
-        new EquipmentModel("Grävmaskin", new DailyPrice(1000)),
+        new EquipmentModel("Grävmaskin\t", new DailyPrice(1000)),
         new EquipmentModel("Gräsklippare", new DailyPrice(300)),
         new EquipmentModel("Högtryckstvätt", new DailyPrice(500))
     };

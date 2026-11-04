@@ -5,9 +5,9 @@ using BookingSystemMoUS.Domain.Models;
 using BookingSystemMoUS.Domain.ValueObjects;
 
 namespace BookingSystemMoUS.Presentation;
-public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository)
+public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository, CalculateTotalPriceService calculateTotalPriceService)
 {
-    public async Task RunProgramAsync(CalculateTotalPriceService calculateTotalPriceService)
+    public async Task RunProgramAsync()
     {
         bool bookingInProgress = false;
         while (!bookingInProgress)
@@ -47,6 +47,7 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository)
 
     private async Task PrintAllModelsAsync()
     {
+        Console.Clear();
         Console.WriteLine("Tillgänglig utrustning:");
         var models = await equipmentModelRepository.GetAllAsync();
 
@@ -113,11 +114,12 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository)
 
     private void DisplayFinalBookingData(PriceResultRecord priceResult)
     {
-        Console.WriteLine($"Utrustning:\t{priceResult.EquipmentName}");
-        Console.WriteLine($"Dagspris:\t{priceResult.DailyPrice} kr");
-        Console.WriteLine($"Hyrperiod:\t{priceResult.StartDate} - {priceResult.EndDate}");
+        Console.Clear();
+        Console.WriteLine($"Utrustning:\t\t{priceResult.EquipmentName}");
+        Console.WriteLine($"Dagspris:\t\t{priceResult.DailyPrice.priceValue} kr");
+        Console.WriteLine($"Hyrperiod:\t\t{priceResult.StartDate} - {priceResult.EndDate}");
         Console.WriteLine($"Antal hyresdagar:\t{priceResult.RentDays}");
-        Console.WriteLine($"Totalpris:\t{priceResult.TotalPrice} kr");
+        Console.WriteLine($"Totalpris:\t\t{priceResult.TotalPrice} kr");
     }
 
     private bool ConfirmBooking()
