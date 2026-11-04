@@ -7,12 +7,12 @@ public record HirePeriod(DateOnly StartDate, DateOnly EndDate)
         return EndDate.DayNumber - StartDate.DayNumber + 1;
     }
 
-    public static HirePeriod CreateHirePeriod(DateOnly startDate, DateOnly endDate)
+    public static HirePeriod CreateHirePeriod(DateOnly StartDate, DateOnly EndDate)
     {
-        if (endDate < startDate)
+        if (EndDate < StartDate)
         {
             throw new ArgumentException("Slutdatumet måste vara efter startdatumet.");
         }
-        return new HirePeriod(startDate, endDate);
+        return new HirePeriod(StartDate, EndDate);
     }
 }
