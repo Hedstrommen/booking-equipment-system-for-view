@@ -8,6 +8,6 @@ public record PriceResultRecord
     DailyPrice DailyPrice,
     DateOnly StartDate,
     DateOnly EndDate,
-    int RentDays,
+    int RentalDays,
     decimal TotalPrice
 );

@@ -53,7 +53,7 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository, Calcu
 
         foreach (var model in models)
         {
-            Console.WriteLine($"Utrustning: {model.EquipmentName}\tPris per dag: {model.DailyPrice.priceValue} kr)");
+            Console.WriteLine($"Utrustning: {model.EquipmentName}\tPris per dag: {model.DailyPrice.PriceValue} kr)");
         }
     }
 
@@ -116,9 +116,9 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository, Calcu
     {
         Console.Clear();
         Console.WriteLine($"Utrustning:\t\t{priceResult.EquipmentName}");
-        Console.WriteLine($"Dagspris:\t\t{priceResult.DailyPrice.priceValue} kr");
+        Console.WriteLine($"Dagspris:\t\t{priceResult.DailyPrice.PriceValue} kr");
         Console.WriteLine($"Hyrperiod:\t\t{priceResult.StartDate} - {priceResult.EndDate}");
-        Console.WriteLine($"Antal hyresdagar:\t{priceResult.RentDays}");
+        Console.WriteLine($"Antal hyresdagar:\t{priceResult.RentalDays}");
         Console.WriteLine($"Totalpris:\t\t{priceResult.TotalPrice} kr");
     }
 
