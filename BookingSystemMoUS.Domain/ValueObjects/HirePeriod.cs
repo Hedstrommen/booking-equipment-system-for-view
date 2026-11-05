@@ -1,18 +1,35 @@
 ﻿namespace BookingSystemMoUS.Domain.ValueObjects;
 //Skriver med Pascal på Start/EndDate då de blir properties och inte vanliga variabler i en record.
-public record HirePeriod(DateOnly StartDate, DateOnly EndDate)
+public record HirePeriod
 {
-    public int GetRentalDays()
+    public DateOnly StartDate { get; }
+    public DateOnly EndDate { get; }
+
+    private HirePeriod(DateOnly startDate, DateOnly endDate)
     {
-        return EndDate.DayNumber - StartDate.DayNumber + 1;
+        StartDate = startDate;
+        EndDate = endDate;
     }
 
-    public static HirePeriod CreateHirePeriod(DateOnly StartDate, DateOnly EndDate)
+    public static HirePeriod ValidateHirePeriod(DateOnly startDate, DateOnly endDate)
     {
-        if (EndDate < StartDate)
+        if (endDate < startDate)
         {
             throw new ArgumentException("Slutdatumet måste vara efter startdatumet.");
         }
-        return new HirePeriod(StartDate, EndDate);
+        else if (endDate > startDate.AddYears(1))
+        {
+            throw new ArgumentException("Du kan inte hyra mer än ett år åt gången");
+        }
+        else if (startDate > DateOnly.FromDateTime(DateTime.Today).AddYears(5) )
+        {
+            throw new ArgumentException("Du kan inte boka en hyrperiod längre fram än 5 år");
+        }
+        return new HirePeriod(startDate, endDate);
+    }
+
+    public int GetRentalDays()
+    {
+        return EndDate.DayNumber - StartDate.DayNumber + 1;
     }
 }
