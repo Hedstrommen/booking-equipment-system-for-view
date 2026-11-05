@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "BookingSystemMoUS.Application/1.0.0": {
+        "dependencies": {
+          "BookingSystemMoUS.Domain": "1.0.0"
+        },
+        "runtime": {
+          "BookingSystemMoUS.Application.dll": {}
+        }
+      },
+      "BookingSystemMoUS.Domain/1.0.0": {
+        "runtime": {
+          "BookingSystemMoUS.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "BookingSystemMoUS.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BookingSystemMoUS.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
