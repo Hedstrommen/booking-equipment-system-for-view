@@ -23,6 +23,9 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository, Calcu
                 //Välj period
                 HirePeriod selectedPeriod = SelectPeriod();
 
+                //Bekräfta eller ändra period
+                selectedPeriod = ConfirmOrChangePeriod(selectedPeriod);
+
                 //Visa pris
                 PriceResultRecord priceResult = await calculateTotalPriceService.CalculateFinalPriceServiceAsync(selectedModel, selectedPeriod);
 
@@ -53,7 +56,7 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository, Calcu
 
         foreach (var model in models)
         {
-            Console.WriteLine($"Utrustning: {model.EquipmentName}\tPris per dag: {model.DailyPrice.PriceValue} kr)");
+            Console.WriteLine($"Utrustning: {model.EquipmentName}\tPris per dag: {model.DailyPrice.priceValue} kr)");
         }
     }
 
@@ -85,12 +88,12 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository, Calcu
     {
         while (true)
         {
-            DateOnly startDate = ReadDate("Ange startdatum (ÅÅÅÅ-MM-DD): ");
-            DateOnly endDate = ReadDate("Ange slutdatum (ÅÅÅÅ-MM-DD): ");
+            DateOnly StartDate = ReadDate("Ange startdatum (ÅÅÅÅ-MM-DD): ");
+            DateOnly EndDate = ReadDate("Ange slutdatum (ÅÅÅÅ-MM-DD): ");
 
             try
             {
-                return HirePeriod.CreateHirePeriod(startDate, endDate);
+                return HirePeriod.ValidateHirePeriod(StartDate, EndDate);
             }
             catch (ArgumentException)
             {
@@ -116,9 +119,9 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository, Calcu
     {
         Console.Clear();
         Console.WriteLine($"Utrustning:\t\t{priceResult.EquipmentName}");
-        Console.WriteLine($"Dagspris:\t\t{priceResult.DailyPrice.PriceValue} kr");
+        Console.WriteLine($"Dagspris:\t\t{priceResult.DailyPrice.priceValue} kr");
         Console.WriteLine($"Hyrperiod:\t\t{priceResult.StartDate} - {priceResult.EndDate}");
-        Console.WriteLine($"Antal hyresdagar:\t{priceResult.RentalDays}");
+        Console.WriteLine($"Antal hyresdagar:\t{priceResult.RentDays}");
         Console.WriteLine($"Totalpris:\t\t{priceResult.TotalPrice} kr");
     }
 
@@ -145,6 +148,32 @@ public class ConsoleUI(IEquipmentModelRepository equipmentModelRepository, Calcu
             else
             {
                 Console.WriteLine("Ogiltigt val, försök igen.");
+            }
+        }
+    }
+
+    private HirePeriod ConfirmOrChangePeriod(HirePeriod period)
+    {
+        while(true)
+        {
+            Console.WriteLine($"Du har valt perioden {period.StartDate} - {period.EndDate}");
+            Console.WriteLine("Vill du behålla eller ändra perioden? (B/Ä)");
+            string? answer = Console.ReadLine()?.Trim().ToUpper();
+            if (answer == "B")
+            {
+                Console.WriteLine("Perioden är behållen, tryck enter för att fortsätta");
+                Console.ReadKey();
+                return period;
+            }
+            else if (answer == "Ä")
+            {
+                period = SelectPeriod();
+                Console.WriteLine("Perioden är nu uppdaterad");
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt val försök igen");
+                continue;
             }
         }
     }
